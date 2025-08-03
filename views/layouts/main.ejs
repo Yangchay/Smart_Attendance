@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css)" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen font-inter">
+    <header class="bg-blue-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/dashboard" class="text-2xl font-bold rounded-md hover:bg-blue-700 p-2">Smart Attendance</a>
+            <nav>
+                <ul class="flex space-x-4">
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <li><a href="/dashboard" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="/students/add" class="nav-link"><i class="fas fa-user-plus"></i> Add Student</a></li>
+                        <li><a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        <li class="flex items-center text-gray-200">
+                            <i class="fas fa-user-circle mr-2"></i> Hello, <%= user.name %>!
+                        </li>
+                    <% } else { %>
+                        <li><a href="/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li><a href="/register" class="nav-link"><i class="fas fa-user-plus"></i> Register</a></li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto my-8 p-6 bg-white rounded-lg shadow-lg flex-grow">
+        <%- body %>
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4 text-center mt-auto shadow-inner">
+        <div class="container mx-auto">
+            &copy; <%= new Date().getFullYear() %> Smart Attendance System. All rights reserved.
+        </div>
+    </footer>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+</body>
+</html>
