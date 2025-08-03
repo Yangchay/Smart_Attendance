@@ -34,41 +34,47 @@ class Attendance {
     }
 
     static async getAttendanceSummaryByDate(userId, date) {
-        const result = await db.query(
-            `SELECT
-                s.id AS student_id,
-                s.name AS student_name,
-                a.status,
-                a.attendance_time
-            FROM
-                students s
-            LEFT JOIN
-                attendance a ON s.id = a.student_id AND a.attendance_date = $2
-            WHERE
-                s.user_id = $1
-            ORDER BY
-                s.name, a.attendance_time`,
-            [userId, date]
-        );
+        try {
+            const result = await db.query(
+                `SELECT
+                    s.id AS student_id,
+                    s.name AS student_name,
+                    a.status,
+                    a.attendance_time
+                FROM
+                    students s
+                LEFT JOIN
+                    attendance a ON s.id = a.student_id AND a.attendance_date = $2
+                WHERE
+                    s.user_id = $1
+                ORDER BY
+                    s.name, a.attendance_time`,
+                [userId, date]
+            );
 
-        // Group attendance by student
-        const summary = {};
-        result.rows.forEach(row => {
-            if (!summary[row.student_id]) {
-                summary[row.student_id] = {
-                    student_id: row.student_id,
-                    student_name: row.student_name,
-                    attendance_records: []
-                };
-            }
-            if (row.status) {
-                summary[row.student_id].attendance_records.push({
-                    status: row.status,
-                    attendance_time: row.attendance_time
-                });
-            }
-        });
-        return Object.values(summary);
+            // Group attendance by student
+            const summary = {};
+            result.rows.forEach(row => {
+                if (!summary[row.student_id]) {
+                    summary[row.student_id] = {
+                        student_id: row.student_id,
+                        student_name: row.student_name,
+                        attendance_records: []
+                    };
+                }
+                // Only push if there's an actual attendance record for the date
+                if (row.status) { // `row.status` will be null for students with no attendance records for the date
+                    summary[row.student_id].attendance_records.push({
+                        status: row.status,
+                        attendance_time: row.attendance_time
+                    });
+                }
+            });
+            return Object.values(summary);
+        } catch (err) {
+            console.error('Error in Attendance.getAttendanceSummaryByDate model:', err);
+            throw err; // Re-throw to be caught by the controller
+        }
     }
 }
 

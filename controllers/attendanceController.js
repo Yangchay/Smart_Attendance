@@ -28,15 +28,24 @@ exports.getAttendanceSummary = async (req, res) => {
     const { date } = req.query;
     const userId = req.user.id;
 
+    // Add server-side logging for debugging userId
+    console.log(`Fetching attendance summary for userId: ${userId} on date: ${date}`);
+
     if (!date) {
+        console.error('getAttendanceSummary: Date is missing from query.');
         return res.status(400).json({ success: false, message: 'Date is required for attendance summary.' });
     }
+    if (!userId) {
+        console.error('getAttendanceSummary: User ID is missing from request.user.');
+        return res.status(401).json({ success: false, message: 'Unauthorized: User ID not found.' });
+    }
+
 
     try {
         const summary = await Attendance.getAttendanceSummaryByDate(userId, date);
         res.json({ success: true, summary: summary });
     } catch (err) {
-        console.error('Error fetching attendance summary:', err);
-        res.status(500).json({ success: false, message: 'Failed to fetch attendance summary. Server error.' });
+        console.error('Error fetching attendance summary in controller:', err); // Log full error
+        res.status(500).json({ success: false, message: 'Failed to fetch attendance summary. Server error. Check server logs.' });
     }
 };

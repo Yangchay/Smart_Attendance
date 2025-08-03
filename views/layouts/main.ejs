@@ -5,40 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Attendance System</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css)" rel="stylesheet">
-</head>
-<body class="bg-gray-100 flex flex-col min-h-screen font-inter">
-    <header class="bg-blue-600 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="/dashboard" class="text-2xl font-bold rounded-md hover:bg-blue-700 p-2">Smart Attendance</a>
-            <nav>
-                <ul class="flex space-x-4">
-                    <% if (typeof user !== 'undefined' && user) { %>
-                        <li><a href="/dashboard" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                        <li><a href="/students/add" class="nav-link"><i class="fas fa-user-plus"></i> Add Student</a></li>
-                        <li><a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                        <li class="flex items-center text-gray-200">
-                            <i class="fas fa-user-circle mr-2"></i> Hello, <%= user.name %>!
-                        </li>
-                    <% } else { %>
-                        <li><a href="/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                        <li><a href="/register" class="nav-link"><i class="fas fa-user-plus"></i> Register</a></li>
-                    <% } %>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container mx-auto my-8 p-6 bg-white rounded-lg shadow-lg flex-grow">
-        <%- body %>
-    </main>
-
-    <footer class="bg-gray-800 text-white p-4 text-center mt-auto shadow-inner">
-        <div class="container mx-auto">
-            &copy; <%= new Date().getFullYear() %> Smart Attendance System. All rights reserved.
-        </div>
-    </footer>
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -50,5 +18,37 @@
             },
         };
     </script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen font-inter text-gray-800">
+    <header class="bg-gradient-to-r from-blue-700 to-blue-500 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <a href="/dashboard" class="text-3xl font-extrabold tracking-tight rounded-lg hover:bg-blue-600 p-2 transition duration-300 ease-in-out">Smart Attendance</a>
+            <nav>
+                <ul class="flex space-x-6 items-center">
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <li><a href="/dashboard" class="nav-link text-lg font-medium hover:text-blue-200 transition duration-200"><i class="fas fa-tachometer-alt mr-2"></i> Dashboard</a></li>
+                        <li><a href="/students/add" class="nav-link text-lg font-medium hover:text-blue-200 transition duration-200"><i class="fas fa-user-plus mr-2"></i> Add Student</a></li>
+                        <li><a href="/logout" class="nav-link text-lg font-medium hover:text-blue-200 transition duration-200"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a></li>
+                        <li class="flex items-center text-blue-200 ml-4">
+                            <i class="fas fa-user-circle mr-2 text-2xl"></i> <span class="text-lg">Hello, <span class="font-semibold"><%= user.name %></span>!</span>
+                        </li>
+                    <% } else { %>
+                        <li><a href="/login" class="nav-link text-lg font-medium hover:text-blue-200 transition duration-200"><i class="fas fa-sign-in-alt mr-2"></i> Login</a></li>
+                        <li><a href="/register" class="nav-link text-lg font-medium hover:text-blue-200 transition duration-200"><i class="fas fa-user-plus mr-2"></i> Register</a></li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto my-10 p-8 bg-white rounded-xl shadow-2xl flex-grow border border-gray-100">
+        <%- body %>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 p-6 text-center mt-auto shadow-inner">
+        <div class="container mx-auto text-sm">
+            &copy; <%= new Date().getFullYear() %> Smart Attendance System. All rights reserved.
+        </div>
+    </footer>
 </body>
 </html>

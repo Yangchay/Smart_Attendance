@@ -18,8 +18,8 @@ pool.on('error', (err, client) => {
 const initializeDatabase = async () => {
     try {
         await pool.query(`
-            -- Create the 'users' table for teachers
-            CREATE TABLE IF NOT EXISTS users (
+            -- Create the 'teachers' table for teachers
+            CREATE TABLE IF NOT EXISTS teachers (
                 id SERIAL PRIMARY KEY,
                 name VARCHAR(100) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
@@ -32,7 +32,7 @@ const initializeDatabase = async () => {
             -- Each student is linked to a teacher (user_id)
             CREATE TABLE IF NOT EXISTS students (
                 id SERIAL PRIMARY KEY,
-                user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                user_id INTEGER NOT NULL REFERENCES teachers(id) ON DELETE CASCADE,
                 name VARCHAR(100) NOT NULL,
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
